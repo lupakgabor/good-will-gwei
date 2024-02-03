@@ -18,11 +18,11 @@ contract Donate {
         owner = msg.sender;
     }
 
-    function addCharity(address withdrawAddress, string memory name, string memory description) public payable ownerOnly {
-        require(charities[withdrawAddress].withdrawAddress == address(0), "This charity is already in our list!");
+    function addCharity(address charityAddress, string memory name, string memory description) public payable ownerOnly {
+        require(charities[charityAddress].withdrawAddress == address(0), "This charity is already in our list.");
 
-        charities[withdrawAddress] = Charity({
-            withdrawAddress: withdrawAddress,
+        charities[charityAddress] = Charity({
+            withdrawAddress: charityAddress,
             name: name,
             description: description,
             is_withdrawn: false,
@@ -30,15 +30,39 @@ contract Donate {
         });
     }
 
-    function donate(address charityAddress) public payable {
-        require(charities[charityAddress].withdrawAddress != address(0), "This charity is not registered!");
+    function removeCharity(address charityAddress) public payable ownerOnly registeredCharity(charityAddress) {
+        Charity storage charity = charities[charityAddress];
 
+        if (charity.balance != 0) {
+            payable(charity.withdrawAddress).transfer(charity.balance);
+        }
+
+        delete charities[charityAddress];
+    }
+
+    function donate(address charityAddress) public payable registeredCharity(charityAddress) {
         Charity storage charity = charities[charityAddress];
         charity.balance = charity.balance + msg.value;
     }
 
+    function withDraw() public payable registeredCharity(msg.sender) {
+        require(charities[msg.sender].balance != 0, "There is no funds.");
+        payable(msg.sender).transfer(charities[msg.sender].balance);
+    }
+
+    // This is extremely strange but this project aims to practice.
+    // This will help to test all functionality in the UI more easily.
+    function beTheOwner() public payable {
+        owner = msg.sender;
+    }
+
     modifier ownerOnly() {
-        require(msg.sender == owner, "Only the owner can perform this action!");
+        require(msg.sender == owner, "Only the owner can perform this action.");
+        _;
+    }
+
+    modifier registeredCharity (address charityAddress) {
+        require(charities[charityAddress].withdrawAddress != address(0), "This charity is not registered.");
         _;
     }
 }
