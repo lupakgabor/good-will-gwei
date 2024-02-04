@@ -51,7 +51,7 @@ export const Header = () => {
                 className="flex-1"
             />
             <a href="https://github.com/lupakgabor/good-will-gwei" target="_blank" rel="noopener noreferrer">
-               <Avatar size="large" className="text-white hover:bg-cyan-500" icon={<GithubOutlined/>}/>
+               <Avatar size="large" className="text-white hover:bg-blue-500" icon={<GithubOutlined/>}/>
             </a>
         </Layout.Header>
     )
