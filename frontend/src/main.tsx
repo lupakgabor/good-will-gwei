@@ -6,6 +6,8 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {JSONRPC} from "@/pages/JSONRPC";
 import {Alchemy} from "@/pages/Alchemy";
 import {WAGMI} from "@/pages/WAGMI";
+import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
@@ -29,5 +31,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 />
             </Routes>
         </BrowserRouter>
+        <ToastContainer />
     </React.StrictMode>,
 )

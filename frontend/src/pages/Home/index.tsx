@@ -28,18 +28,21 @@ export const Home = () => {
                         hoverable
                         cover={<img alt="json-rpc" src={jsonRPC} className="h-96"/>}
                     >
-                        <Card.Meta title="JSON-RPC"
-                                   description="JSON-RPC is a stateless, light-weight remote procedure call (RPC) protocol."/>
+                        <Card.Meta
+                            title="JSON-RPC"
+                            description="JSON-RPC is a stateless, light-weight remote procedure call (RPC) protocol."
+                        />
                     </Card>
                 </Link>
                 <Link to="/alchemy" className="w-1/4">
                     <Card
                         hoverable
-
                         cover={<img alt="aclhemy" src={alchemy} className="h-96"/>}
                     >
-                        <Card.Meta title="Alchemy"
-                                   description="The Alchemy SDK is the easiest way to connect your dApp to the blockchain."/>
+                        <Card.Meta
+                            title="Alchemy"
+                            description="The Alchemy SDK is the easiest way to connect your dApp to the blockchain."
+                        />
                     </Card>
                 </Link>
                 <Link to="/wagmi" className="w-1/4">
@@ -47,8 +50,10 @@ export const Home = () => {
                         hoverable
                         cover={<img alt="wagmi" src={wagmi} className="h-96"/>}
                     >
-                        <Card.Meta title="WAGMI"
-                                   description="Type Safe, Extensible, and Modular by design. Build high-performance blockchain frontends."/>
+                        <Card.Meta
+                            title="WAGMI"
+                            description="Type Safe, Extensible, and Modular by design. Build high-performance blockchain frontends."
+                        />
                     </Card>
                 </Link>
             </Flex>
