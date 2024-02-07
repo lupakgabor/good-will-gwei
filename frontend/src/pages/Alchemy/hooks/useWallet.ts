@@ -17,7 +17,6 @@ export const useWallet = () => {
                 toast.error(`${error.message} 😥`);
             }
         } else {
-             // @ts-ignore
             toast.error('You must install Metamask, a virtual Ethereum wallet, in your browser.');
         }
     };

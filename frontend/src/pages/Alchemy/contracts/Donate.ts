@@ -8,4 +8,3 @@ export const donate = new web3.eth.Contract(
     DonateDefinition.abi,
     import.meta.env.VITE_CONTRACT_ADDRESS,
 );
-

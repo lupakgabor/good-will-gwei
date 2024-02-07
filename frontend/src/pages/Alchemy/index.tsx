@@ -3,9 +3,9 @@ import {Button, Flex} from "antd";
 import {toast} from "react-toastify";
 import {Charity} from "@/types";
 import {BasePage, ContentHeader, AddCharityCard, Owner, AddCharityModal, CharityCard, ContentBody} from "@/components";
-import {donate} from "./contracts/Donate";
-import {useWallet} from "./hooks/useWallet";
+import {useWallet, useSendTransaction} from "./hooks";
 import {compareAddresses, formatAddress} from "./utils";
+import {donate} from "./contracts/Donate";
 
 
 const MAIN_COLOR = '#21aeef';
@@ -18,6 +18,7 @@ const charitiesAddress = [
 ]
 
 export const Alchemy = () => {
+    const {isLoading, sendTransaction} = useSendTransaction();
     const {connectWallet, address} = useWallet();
     const [owner, setOwner] = useState('');
     const [isNewCharityModalOpen, setIsNewCharityModalOpen] = useState(false);
@@ -29,9 +30,14 @@ export const Alchemy = () => {
         if (!window.ethereum) {
             toast.warning('You must install Metamask to interact with this website!')
         }
-        fetchOwner();
-        fetchCharities(charitiesAddress);
     }, []);
+
+    useEffect(() => {
+        if (!isLoading) {
+            fetchOwner();
+            fetchCharities(charitiesAddress);
+        }
+    }, [isLoading]);
 
     const fetchOwner = async () => {
         setOwner(await donate.methods.owner().call());
@@ -44,18 +50,14 @@ export const Alchemy = () => {
         ))
     }
 
+    const beTheOwner = async (address: string) => {
+        const callData = donate.methods.beTheOwner().encodeABI();
+        await sendTransaction(address, callData, 50000);
+    }
+
     const addNewCharity = async (values: Charity) => {
-        const transactionParameters = {
-            to: import.meta.env.VITE_CONTRACT_ADDRESS, // Required except during contract publications.
-            from: address, // must match user's active address.
-            data: donate.methods.addCharity(values.withdrawAddress, values.name, values.description).encodeABI(),
-            gas: 150000,
-        };
-        const txHash = await window.ethereum.request({
-            method: "eth_sendTransaction",
-            params: [transactionParameters],
-        });
-        console.log('Transaction:', `https://sepolia.etherscan.io/tx/${txHash}`)
+        const callData = donate.methods.addCharity(values.withdrawAddress, values.name, values.description).encodeABI();
+        await sendTransaction(address, callData, 150000);
     }
 
     return (
@@ -66,7 +68,7 @@ export const Alchemy = () => {
                 </Button>
             </ContentHeader>
             <ContentBody>
-                <Owner color={MAIN_COLOR} owner={owner} address={address} />
+                <Owner color={MAIN_COLOR} owner={owner} address={address} onBeTheOwner={beTheOwner}/>
                 <Flex justify='space-around'>
                     {charities.map(charity => <CharityCard key={charity.withdrawAddress} {...charity} />)}
                     <AddCharityCard disabled={disableEdit || !isOwner} onClick={() => setIsNewCharityModalOpen(true)}/>

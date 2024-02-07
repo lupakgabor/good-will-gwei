@@ -28,5 +28,5 @@ describe('Alchemy', () => {
         await screen.findByText('You are the owner!');
         await screen.findAllByText('Age of Hope');
         await screen.findByText('Add new charity!');
-    })
+    });
 });
