@@ -10,3 +10,7 @@ body {
 div#root {
   @apply h-full;
 }
+
+.Toastify__toast-container--top-center {
+  width: 500px;
+}

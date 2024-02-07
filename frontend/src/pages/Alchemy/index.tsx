@@ -19,12 +19,12 @@ const charitiesAddress = [
 
 export const Alchemy = () => {
     const {isLoading, sendTransaction} = useSendTransaction();
-    const {connectWallet, address} = useWallet();
+    const {connectWallet, walletAddress} = useWallet();
     const [owner, setOwner] = useState('');
     const [isNewCharityModalOpen, setIsNewCharityModalOpen] = useState(false);
     const [charities, setCharities] = useState<Charity[]>([])
-    const isOwner = compareAddresses(owner, address);
-    const disableEdit = address === null || !window.ethereum;
+    const isOwner = compareAddresses(owner, walletAddress);
+    const disableEdit = walletAddress === null || !window.ethereum;
 
     useEffect(() => {
         if (!window.ethereum) {
@@ -57,20 +57,43 @@ export const Alchemy = () => {
 
     const addNewCharity = async (values: Charity) => {
         const callData = donate.methods.addCharity(values.withdrawAddress, values.name, values.description).encodeABI();
-        await sendTransaction(address, callData, 150000);
+        await sendTransaction(walletAddress, callData, 150000);
+    }
+
+    const donateToCharity = async (address: string, amount: number) => {
+        const callData = donate.methods.donate(address).encodeABI();
+        await sendTransaction(walletAddress, callData, 150000, amount);
+    }
+
+    const withdrawFunds = async () => {
+        const callData = donate.methods.withDraw().encodeABI();
+        await sendTransaction(walletAddress, callData, 150000);
+    }
+
+    const removeCharity = async (address: string) => {
+        const callData = donate.methods.removeCharity(address).encodeABI();
+        await sendTransaction(walletAddress, callData, 150000);
     }
 
     return (
         <BasePage>
             <ContentHeader bgColor={MAIN_COLOR} title="Alchemy">
                 <Button type={"primary"} onClick={connectWallet}>
-                    {address.length > 0 ? `Connected: ${formatAddress(address)}` : 'Connect Wallet'}
+                    {walletAddress.length > 0 ? `Connected: ${formatAddress(walletAddress)}` : 'Connect Wallet'}
                 </Button>
             </ContentHeader>
             <ContentBody>
-                <Owner color={MAIN_COLOR} owner={owner} address={address} onBeTheOwner={beTheOwner}/>
+                <Owner color={MAIN_COLOR} owner={owner} address={walletAddress} onBeTheOwner={beTheOwner}/>
                 <Flex justify='space-around'>
-                    {charities.map(charity => <CharityCard key={charity.withdrawAddress} {...charity} />)}
+                    {charities.map(charity => <CharityCard
+                        key={charity.withdrawAddress}
+                        {...charity}
+                        owner={owner}
+                        walletAddress={walletAddress}
+                        onDonate={donateToCharity}
+                        onWithdraw={withdrawFunds}
+                        onRemove={removeCharity}
+                    />)}
                     <AddCharityCard disabled={disableEdit || !isOwner} onClick={() => setIsNewCharityModalOpen(true)}/>
                 </Flex>
             </ContentBody>

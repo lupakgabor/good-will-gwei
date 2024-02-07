@@ -15,9 +15,9 @@ vi.mock('react-toastify', () => {
 
 
 const WrapperComponent = () => {
-    const {address, connectWallet} = useWallet();
+    const {walletAddress, connectWallet} = useWallet();
     return <div>
-        <p>{address}</p>
+        <p>{walletAddress}</p>
         <button onClick={connectWallet}>Connect Wallet</button>
     </div>;
 };

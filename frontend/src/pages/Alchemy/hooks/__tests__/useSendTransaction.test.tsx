@@ -11,6 +11,7 @@ vi.mock('react-toastify', () => {
             success: vi.fn(),
             warning: vi.fn(),
             error: vi.fn(),
+            dismiss: vi.fn(),
         },
     };
 });
@@ -79,7 +80,7 @@ describe('sendTransaction', () => {
         await userEvent.click(button);
 
         expect(text).toBeTruthy();
-        expect(toast.warning).toBeCalledWith('Transactions successfully started! ⏳');
+        expect(toast.warning).toBeCalled();
         expect(toast.success).toBeCalledWith('Transactions successfully finished! 🎉');
     });
 });

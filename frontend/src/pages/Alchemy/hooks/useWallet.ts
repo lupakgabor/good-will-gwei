@@ -3,7 +3,7 @@ import {toast} from "react-toastify";
 
 
 export const useWallet = () => {
-    const [address, setAddress] = useState('');
+    const [walletAddress, setWalletAddress] = useState('');
 
     const connectWallet = async () => {
         if (window.ethereum) {
@@ -11,7 +11,7 @@ export const useWallet = () => {
                 const addressArray = await window.ethereum.request({
                     method: "eth_requestAccounts",
                 });
-                setAddress(addressArray[0]);
+                setWalletAddress(addressArray[0]);
             } catch (error) {
                 // @ts-ignore
                 toast.error(`${error.message} 😥`);
@@ -28,7 +28,7 @@ export const useWallet = () => {
                     method: "eth_accounts",
                 });
                 if (addressArray.length > 0) {
-                    setAddress(addressArray[0]);
+                    setWalletAddress(addressArray[0]);
                 }
             } catch (error) {
                 // @ts-ignore
@@ -41,7 +41,7 @@ export const useWallet = () => {
         if (window.ethereum) {
             window.ethereum.on("accountsChanged", (accounts: string[]) => {
                 if (accounts.length > 0) {
-                    setAddress(accounts[0]);
+                    setWalletAddress(accounts[0]);
                 }
             });
         }
@@ -55,6 +55,6 @@ export const useWallet = () => {
 
     return {
         connectWallet,
-        address,
+        walletAddress,
     }
 }
