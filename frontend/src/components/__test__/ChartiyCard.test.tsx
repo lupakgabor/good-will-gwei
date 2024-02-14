@@ -4,7 +4,7 @@ import {mockAddresses, mockCharity} from "@/__mocks__";
 import {expect} from "vitest";
 import userEvent from "@testing-library/user-event";
 
-const setUp = (walletAddress: string = '', owner: string = '') => {
+const setUp = (walletAddress: string = '', manager: string = '') => {
     const onDonate = vi.fn();
     const onWithdraw = vi.fn();
     const onRemove = vi.fn();
@@ -14,7 +14,7 @@ const setUp = (walletAddress: string = '', owner: string = '') => {
         onWithdraw={onWithdraw}
         onRemove={onRemove}
         walletAddress={walletAddress}
-        owner={owner}
+        manager={manager}
     />)
 
     return {
@@ -48,7 +48,7 @@ describe('CharityCard', () => {
         expect(remove).toBeDisabled();
     });
 
-    it('should only allow to Donate and Remove when we are the owner', async () => {
+    it('should only allow to Donate and Remove when we are the manager', async () => {
         const {onRemove} = setUp(mockAddresses[1], mockAddresses[1]);
 
         const donate = await screen.findByRole('button', {name: 'Donate'});
@@ -58,14 +58,14 @@ describe('CharityCard', () => {
         await userEvent.click(remove);
         await userEvent.click(await screen.findByRole('button', {name: 'Yes'}));
 
-        expect(onRemove).toBeCalledWith(mockCharity.withdrawAddress);
+        expect(onRemove).toBeCalledWith(mockCharity.charityAddress);
         expect(donate).toBeEnabled();
         expect(withdraw).toBeDisabled();
         expect(remove).toBeEnabled();
     });
 
     it('should only allow to Donate and Withdraw when address is the charityAddress', async () => {
-        const {onWithdraw} = setUp(mockCharity.withdrawAddress, mockAddresses[1])
+        const {onWithdraw} = setUp(mockCharity.charityAddress, mockAddresses[1])
 
         const donate = await screen.findByRole('button', {name: 'Donate'});
         const withdraw = await screen.findByRole('button', {name: 'Withdraw'});

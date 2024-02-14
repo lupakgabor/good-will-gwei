@@ -1,8 +1,7 @@
 
 export type Charity = {
-    withdrawAddress: string;
+    charityAddress: string;
     name: string;
     description: string;
     balance: number;
-    imageUrl: string;
 }

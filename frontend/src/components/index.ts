@@ -4,7 +4,7 @@ export * from './BasePage';
 export * from './CharityCard';
 export * from './ContentBody'
 export * from './ContentHeader'
-export * from './Owner';
+export * from './Manager';
 export * from './DonateButton';
 export * from './WithdrawButton';
 export * from './RemoveButton';

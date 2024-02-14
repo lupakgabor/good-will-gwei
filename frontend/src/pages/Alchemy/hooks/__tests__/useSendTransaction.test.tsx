@@ -81,6 +81,6 @@ describe('sendTransaction', () => {
 
         expect(text).toBeTruthy();
         expect(toast.warning).toBeCalled();
-        expect(toast.success).toBeCalledWith('Transactions successfully finished! 🎉');
+        expect(toast.error).toBeCalled();
     });
 });

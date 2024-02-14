@@ -23,5 +23,5 @@ For contract deployment on the Sepolia network:
 
 ### Address of the Deployed Contract:
 ```
-0x0b49bFed844489a31599335703696090C9532f4a
+0x1034E0E4aA0631c3f7126C8eC7CF31806b446602
 ```

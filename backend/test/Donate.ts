@@ -160,7 +160,7 @@ describe("Donate", () => {
         it("should change the manager to the transaction sender", async () => {
             const {donate, signers} = await loadFixture(deployWithSampleCharities);
 
-            await donate.connect(signers[0]).beTheOwner();
+            await donate.connect(signers[0]).beTheManager();
 
             expect(await donate.manager()).to.eq(signers[0]);
         })

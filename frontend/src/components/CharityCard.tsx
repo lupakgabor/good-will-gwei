@@ -9,37 +9,37 @@ type CharityCard = Charity & {
     onWithdraw: () => void;
     onRemove: (address: string) => void;
     walletAddress: string;
-    owner: string;
+    manager: string;
 }
 
 export const CharityCard = (props: CharityCard) => {
-    const isOwner = props.owner && compareAddresses(props.walletAddress, props.owner);
-    const isCharityOwner = props.walletAddress && compareAddresses(props.withdrawAddress, props.walletAddress);
+    const isManager = props.manager && compareAddresses(props.walletAddress, props.manager);
+    const isCharityManager = props.walletAddress && compareAddresses(props.charityAddress, props.walletAddress);
 
     return (
         <Card
             style={{width: 300}}
-            cover={<img alt="example" src="http://placekitten.com/g/200/150"/>}
+            cover={<img alt="example" src={`https://cataas.com/cat/cute?width=300&height=200&rand=${props.name}"`} />}
             actions={[
                 <DonateButton
                     charityName={props.name}
-                    onDonate={(amount) => props.onDonate(props.withdrawAddress, amount)}
+                    onDonate={(amount) => props.onDonate(props.charityAddress, amount)}
                     disabled={!props.walletAddress}
                 />,
                 <WithdrawButton
                     onConfirm={() => props.onWithdraw()}
-                    disabled={!isCharityOwner}
+                    disabled={!isCharityManager}
                 />,
                 <RemoveButton
-                    onConfirm={() => props.onRemove(props.withdrawAddress)}
-                    disabled={!isOwner}
+                    onConfirm={() => props.onRemove(props.charityAddress)}
+                    disabled={!isManager}
                 />,
             ]}
         >
             <div className="font-bold text-lg">{props.name}</div>
             <div>{props.description}</div>
 
-            <div>Balance: {ethers.utils.formatEther(props.balance)}</div>
+            <div className="font-bold mt-3">Balance: {ethers.utils.formatEther(props.balance)}</div>
         </Card>
     )
 }

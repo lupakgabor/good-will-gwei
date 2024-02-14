@@ -64,7 +64,7 @@ contract Donate {
 
     // This is extremely strange but this project aims to practice.
     // This will help to test all functionality in the UI more easily.
-    function beTheOwner() public payable {
+    function beTheManager() public payable {
         manager = msg.sender;
     }
 
