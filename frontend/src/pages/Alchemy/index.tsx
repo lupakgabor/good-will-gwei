@@ -44,7 +44,8 @@ export const Alchemy = () => {
     }
 
     const fetchCharities = async () => {
-        const addresses: string[] = await donate.methods.getAllCharityAddress().call();
+        const addresses: string[] = (await donate.methods.getAllCharityAddress().call())
+            .filter((address: string) => Number(address));
 
         // TODO: batch request would be more efficient
         setCharities(await Promise.all(

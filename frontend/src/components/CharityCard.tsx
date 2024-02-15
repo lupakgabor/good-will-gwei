@@ -37,7 +37,7 @@ export const CharityCard = (props: CharityCard) => {
             ]}
         >
             <div className="font-bold text-lg">{props.name}</div>
-            <div>{props.description}</div>
+            <p className="h-28 text-ellipsis overflow-hidden">{props.description}</p>
 
             <div className="font-bold mt-3">Balance: {ethers.utils.formatEther(props.balance)}</div>
         </Card>

@@ -1,12 +1,19 @@
-import {BasePage} from "@/components";
+import {BasePage, ContentBody, ContentHeader} from "@/components";
+import {ConnectButton} from "./components";
 
+const MAIN_COLOR = '#747bff';
 
 export const WAGMI = () => {
     return (
         <BasePage>
-            <h1 className="text-3xl text-center font-bold underline">
-                WAGMI!
-            </h1>
+            <ContentHeader bgColor={MAIN_COLOR} title="WAGMI">
+                <ConnectButton />
+            </ContentHeader>
+            <ContentBody>
+                <div>
+                    WAGMI
+                </div>
+            </ContentBody>
         </BasePage>
     )
 }

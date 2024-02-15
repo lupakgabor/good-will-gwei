@@ -9,6 +9,11 @@ import {WAGMI} from "@/pages/WAGMI";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import './index.css'
+import {WagmiProvider} from "wagmi";
+import {config} from "./wagmi";
+import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+
+const queryClient = new QueryClient()
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
@@ -27,7 +32,13 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                     path="alchemy"
                 />
                 <Route
-                    element={<WAGMI/>}
+                    element={(
+                        <WagmiProvider config={config}>
+                            <QueryClientProvider client={queryClient}>
+                                <WAGMI/>
+                            </QueryClientProvider>
+                        </WagmiProvider>
+                    )}
                     path="wagmi"
                 />
             </Routes>

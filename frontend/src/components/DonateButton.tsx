@@ -11,6 +11,7 @@ type DonateButtonType = {
 export const DonateButton = ({charityName, onDonate, disabled}: DonateButtonType) => {
     const [form] = Form.useForm();
     const [isOpen, setIsOpen] = useState(false);
+    const [confirmLoading, setConfirmLoading] = useState(false);
 
     return (
         <div>
@@ -21,14 +22,14 @@ export const DonateButton = ({charityName, onDonate, disabled}: DonateButtonType
                 okText="Send"
                 cancelText="Cancel"
                 onCancel={() => setIsOpen(false)}
-                onOk={() => {
-                    form
-                        .validateFields()
-                        .then((values) => {
-                            form.resetFields();
-                            onDonate(values.amount);
-                            setIsOpen(false);
-                        })
+                confirmLoading={confirmLoading}
+                onOk={async () => {
+                    const values = await form.validateFields();
+                    setConfirmLoading(true);
+                    await onDonate(values.amount);
+                    setConfirmLoading(false);
+                    form.resetFields();
+                    setIsOpen(false);
                 }}
             >
                 <Form
