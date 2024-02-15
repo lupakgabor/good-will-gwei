@@ -8,8 +8,8 @@ type CharityCard = Charity & {
     onDonate: (address: string, amount: number) => void;
     onWithdraw: () => void;
     onRemove: (address: string) => void;
-    walletAddress: string;
-    manager: string;
+    walletAddress?: string;
+    manager?: string;
 }
 
 export const CharityCard = (props: CharityCard) => {
