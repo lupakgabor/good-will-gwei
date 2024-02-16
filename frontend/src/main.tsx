@@ -43,6 +43,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
                 />
             </Routes>
         </BrowserRouter>
-        <ToastContainer />
+        <ToastContainer/>
     </React.StrictMode>,
 )

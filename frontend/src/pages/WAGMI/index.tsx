@@ -8,20 +8,25 @@ import {
     Manager
 } from "@/components";
 import {ConnectButton} from "./components";
-import {useFetchManager, useFetchCharities} from "./hooks";
+import {useFetchCharities, useFetchContractData, useRefreshObserver, useWriteContractData} from "./hooks";
 import {useAccount} from "wagmi";
 import {Flex} from "antd";
 import {compareAddresses} from "@/pages/Alchemy/utils";
 import {useState} from "react";
 
+
 const MAIN_COLOR = '#747bff';
 
 export const WAGMI = () => {
-    const manager = useFetchManager();
+    const {subscribe, notify} = useRefreshObserver();
+    const {manager} = useFetchContractData(subscribe);
+    const {beTheManager} = useWriteContractData(notify);
+
     const charities = useFetchCharities();
     const account = useAccount();
     const isManager = compareAddresses(manager, account.address);
     const [isNewCharityModalOpen, setIsNewCharityModalOpen] = useState(false);
+
 
     return (
         <BasePage>
@@ -29,8 +34,11 @@ export const WAGMI = () => {
                 <ConnectButton/>
             </ContentHeader>
             <ContentBody>
-                <Manager color={MAIN_COLOR} manager={manager} address={account.address}
-                         onBeTheManager={() => console.log()}/>
+                <Manager
+                    color={MAIN_COLOR}
+                    manager={manager}
+                    address={account.address} onBeTheManager={beTheManager}
+                />
 
                 <Flex justify='space-around'>
                     {charities.map(charity => <CharityCard

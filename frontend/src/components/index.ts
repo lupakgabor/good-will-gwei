@@ -8,3 +8,4 @@ export * from './Manager';
 export * from './DonateButton';
 export * from './WithdrawButton';
 export * from './RemoveButton';
+export * from './Toast';

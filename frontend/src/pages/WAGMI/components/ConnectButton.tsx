@@ -3,7 +3,7 @@ import {Button} from "antd";
 import {injected} from "wagmi/connectors";
 import {formatAddress} from "@/pages/Alchemy/utils";
 import {useEffect} from "react";
-import {toast} from "react-toastify";
+import {errorHandler} from "@/pages/WAGMI/utils";
 
 export const ConnectButton = () => {
     const account = useAccount()
@@ -11,13 +11,7 @@ export const ConnectButton = () => {
     const {disconnect} = useDisconnect();
 
     useEffect(() => {
-        if (connect.error) {
-            if ('details' in connect.error) {
-                toast.error(connect.error.details)
-            } else {
-                toast.error(connect.error.message)
-            }
-        }
+        errorHandler(connect.error)
     }, [connect.isError]);
 
     return (
