@@ -1,7 +1,7 @@
 
 export type Charity = {
-    charityAddress: string;
+    charityAddress: `0x${string}`;
     name: string;
     description: string;
-    balance: number;
+    balance: number | bigint;
 }

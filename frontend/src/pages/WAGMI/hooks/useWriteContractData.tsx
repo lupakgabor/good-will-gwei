@@ -4,10 +4,12 @@ import {abi} from "@/DonateABI";
 import {useEffect, useId} from "react";
 import {TransactionFailed, TransactionInProgress} from "@/components";
 import {errorHandler} from "@/pages/WAGMI/utils";
+import {Charity} from "@/types";
+import {ethers} from "ethers";
 
 
 export const useWriteContractData = (notify: () => void) => {
-    const { writeContract } = useWriteContractHandler(notify);
+    const {writeContract} = useWriteContractHandler(notify);
 
     const beTheManager = () => {
         writeContract({
@@ -16,10 +18,51 @@ export const useWriteContractData = (notify: () => void) => {
             functionName: 'beTheManager',
             args: [],
         });
-    }
+    };
+
+    const addNewCharity = (values: Charity) => {
+        writeContract({
+            abi,
+            address: import.meta.env.VITE_CONTRACT_ADDRESS,
+            functionName: 'addCharity',
+            args: [values.charityAddress, values.name, values.description],
+        });
+    };
+
+    const removeCharity = (address: `0x${string}`) => {
+        writeContract({
+            abi,
+            address: import.meta.env.VITE_CONTRACT_ADDRESS,
+            functionName: 'removeCharity',
+            args: [address],
+        });
+    };
+
+    const donateToCharity = (address: `0x${string}`, amount: number) => {
+        writeContract({
+            abi,
+            address: import.meta.env.VITE_CONTRACT_ADDRESS,
+            functionName: 'donate',
+            args: [address],
+            value: ethers.utils.parseEther((amount).toString()).toBigInt(),
+        });
+    };
+
+    const withdrawFunds = () => {
+        writeContract({
+            abi,
+            address: import.meta.env.VITE_CONTRACT_ADDRESS,
+            functionName: 'withdraw',
+            args: [],
+        });
+    };
 
     return {
         beTheManager,
+        addNewCharity,
+        removeCharity,
+        donateToCharity,
+        withdrawFunds,
     }
 }
 

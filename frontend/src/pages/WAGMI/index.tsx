@@ -8,7 +8,7 @@ import {
     Manager
 } from "@/components";
 import {ConnectButton} from "./components";
-import {useFetchCharities, useFetchContractData, useRefreshObserver, useWriteContractData} from "./hooks";
+import {useFetchContractData, useRefreshObserver, useWriteContractData} from "./hooks";
 import {useAccount} from "wagmi";
 import {Flex} from "antd";
 import {compareAddresses} from "@/pages/Alchemy/utils";
@@ -19,10 +19,9 @@ const MAIN_COLOR = '#747bff';
 
 export const WAGMI = () => {
     const {subscribe, notify} = useRefreshObserver();
-    const {manager} = useFetchContractData(subscribe);
-    const {beTheManager} = useWriteContractData(notify);
+    const {manager, charities} = useFetchContractData(subscribe);
+    const {beTheManager, addNewCharity, removeCharity, donateToCharity, withdrawFunds} = useWriteContractData(notify);
 
-    const charities = useFetchCharities();
     const account = useAccount();
     const isManager = compareAddresses(manager, account.address);
     const [isNewCharityModalOpen, setIsNewCharityModalOpen] = useState(false);
@@ -46,9 +45,9 @@ export const WAGMI = () => {
                         {...charity}
                         manager={manager}
                         walletAddress={account.address}
-                        onDonate={console.log}
-                        onWithdraw={console.log}
-                        onRemove={console.log}
+                        onDonate={donateToCharity}
+                        onWithdraw={withdrawFunds}
+                        onRemove={removeCharity}
                     />)}
                     <AddCharityCard
                         disabled={!account.address || !isManager}
@@ -59,7 +58,7 @@ export const WAGMI = () => {
             <AddCharityModal
                 isOpen={isNewCharityModalOpen}
                 handleClose={() => setIsNewCharityModalOpen(false)}
-                onCreate={console.log}
+                onCreate={addNewCharity}
             />
         </BasePage>
     )

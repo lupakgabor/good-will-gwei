@@ -5,9 +5,9 @@ import {DonateButton, RemoveButton, WithdrawButton} from "@/components";
 import {ethers} from "ethers";
 
 type CharityCard = Charity & {
-    onDonate: (address: string, amount: number) => void;
+    onDonate: (address: `0x${string}`, amount: number) => void;
     onWithdraw: () => void;
-    onRemove: (address: string) => void;
+    onRemove: (address: `0x${string}`) => void;
     walletAddress?: string;
     manager?: string;
 }
