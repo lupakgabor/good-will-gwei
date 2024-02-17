@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {Button, Flex} from "antd";
+import {Button, Flex, Spin} from "antd";
 import {toast} from "react-toastify";
 import {Charity} from "@/types";
 import {
@@ -25,6 +25,7 @@ export const Alchemy = () => {
     const [charities, setCharities] = useState<Charity[]>([])
     const isManager = compareAddresses(manager, walletAddress);
     const disableEdit = walletAddress === null || !window.ethereum;
+    const [isCharitiesLoading, setIsCharityLoading] = useState(true);
 
     useEffect(() => {
         if (!window.ethereum) {
@@ -44,13 +45,15 @@ export const Alchemy = () => {
     }
 
     const fetchCharities = async () => {
+        setIsCharityLoading(true);
         const addresses: string[] = (await donate.methods.getAllCharityAddress().call())
             .filter((address: string) => Number(address));
 
         // TODO: batch request would be more efficient
         setCharities(await Promise.all(
             addresses.map((address) => donate.methods.charities(address).call())
-        ))
+        ));
+        setIsCharityLoading(false);
     }
 
     const beTheManager = async (address: string) => {
@@ -87,21 +90,23 @@ export const Alchemy = () => {
             </ContentHeader>
             <ContentBody>
                 <Manager color={MAIN_COLOR} manager={manager} address={walletAddress} onBeTheManager={beTheManager}/>
-                <Flex justify='space-around'>
-                    {charities.map(charity => <CharityCard
-                        key={charity.charityAddress}
-                        {...charity}
-                        manager={manager}
-                        walletAddress={walletAddress}
-                        onDonate={donateToCharity}
-                        onWithdraw={withdrawFunds}
-                        onRemove={removeCharity}
-                    />)}
-                    <AddCharityCard
-                        disabled={disableEdit || !isManager}
-                        onClick={() => setIsNewCharityModalOpen(true)}
-                    />
-                </Flex>
+                <Spin tip='Loading...' size='large' spinning={isCharitiesLoading}>
+                    <Flex justify='space-around'>
+                        {charities.map(charity => <CharityCard
+                            key={charity.charityAddress}
+                            {...charity}
+                            manager={manager}
+                            walletAddress={walletAddress}
+                            onDonate={donateToCharity}
+                            onWithdraw={withdrawFunds}
+                            onRemove={removeCharity}
+                        />)}
+                        <AddCharityCard
+                            disabled={disableEdit || !isManager}
+                            onClick={() => setIsNewCharityModalOpen(true)}
+                        />
+                    </Flex>
+                </Spin>
             </ContentBody>
             <AddCharityModal
                 isOpen={isNewCharityModalOpen}

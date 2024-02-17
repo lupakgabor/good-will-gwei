@@ -21,7 +21,7 @@ export const useFetchContractData = (subscribe: (fn: Observer) => void) => {
 
     const filteredAddresses = addresses?.filter((address: string) => Number(address));
 
-    const {data: charityResults, refetch: refetchContracts} = useReadContracts({
+    const {data: charityResults, refetch: refetchContracts, isPending: isCharitiesLoading} = useReadContracts({
         contracts: filteredAddresses?.map((address) => ({
             abi,
             address: import.meta.env.VITE_CONTRACT_ADDRESS,
@@ -48,5 +48,6 @@ export const useFetchContractData = (subscribe: (fn: Observer) => void) => {
     return {
         manager,
         charities,
+        isCharitiesLoading,
     }
 }
