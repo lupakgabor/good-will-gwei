@@ -107,7 +107,6 @@ const useWriteContractHandler = (notify: () => void) => {
             toast.dismiss(toastId);
         }
     }, [waitFor.isSuccess, waitFor.isError]);
-    
 
     return {
         writeContract,
