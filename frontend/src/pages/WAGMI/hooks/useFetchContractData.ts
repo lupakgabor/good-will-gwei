@@ -9,7 +9,6 @@ export const useFetchContractData = (subscribe: (fn: Observer) => void) => {
         abi: abi,
         address: import.meta.env.VITE_CONTRACT_ADDRESS,
         functionName: 'manager',
-        scopeKey: 'fetchManager',
     });
 
     const {data: addresses, refetch: refetchAddresses} = useReadContract({
