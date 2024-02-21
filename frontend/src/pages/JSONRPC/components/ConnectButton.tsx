@@ -1,13 +1,10 @@
 import {Button, Form, Input, Modal} from "antd";
 import {useEffect, useState} from "react";
 import {formatAddress} from "@/pages/Alchemy/utils";
-import {getAddressFromPrivateKey} from "@/pages/JSONRPC/utils";
-import {useLocalStorage} from "@/pages/JSONRPC/hooks/useLocalStorage";
+import {getAddressFromPrivateKey} from "../utils";
+import {useLocalStorage} from "../hooks";
+import type {Wallet} from "../types";
 
-export type Wallet = {
-    address: `0x${string}`;
-    privateKey: string;
-}
 
 type ConnectButtonType = {
     onSetWallet: (wallet: Wallet | null) => void;

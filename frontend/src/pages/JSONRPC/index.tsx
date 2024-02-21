@@ -1,11 +1,13 @@
 import {AddCharityCard, AddCharityModal, BasePage, CharityCard, ContentHeader, Manager} from "@/components";
 import {ContentBody} from "@/components/ContentBody";
-import {ConnectButton, Wallet} from "./components";
+import {ConnectButton,} from "./components";
 import {useEffect, useState} from "react";
 import {fetchContractData} from "./web3";
 import {Charity} from "@/types";
 import {Flex, Spin} from "antd";
 import {compareAddresses} from "@/pages/Alchemy/utils";
+import {useSendTransaction} from "./hooks";
+import {Wallet} from "./types";
 
 
 const MAIN_COLOR = '#ecae7f'
@@ -13,6 +15,7 @@ const MAIN_COLOR = '#ecae7f'
 
 export const JSONRPC = () => {
     const [wallet, setWallet] = useState<Wallet | null>(null)
+    const {isLoading, sendTransaction} = useSendTransaction(wallet);
     const [manager, setManager] = useState('');
     const [charities, setCharities] = useState<Charity[]>([])
     const [isCharitiesLoading, setIsCharityLoading] = useState(true);
@@ -20,11 +23,11 @@ export const JSONRPC = () => {
     const isManager = compareAddresses(manager, wallet?.address);
 
     useEffect(() => {
-        (async () => {
+        if (!isLoading) {
             fetchManager();
             fetchCharities();
-        })();
-    }, []);
+        }
+    }, [isLoading]);
 
 
     const fetchManager = async () => {
@@ -48,13 +51,17 @@ export const JSONRPC = () => {
         setIsCharityLoading(false);
     }
 
+    const beTheManager = async () => {
+        await sendTransaction( 'beTheManager')
+    }
+
     return (
         <BasePage>
             <ContentHeader bgColor={MAIN_COLOR} title="JSON-RPC">
                 <ConnectButton onSetWallet={setWallet}/>
             </ContentHeader>
             <ContentBody>
-                <Manager color={MAIN_COLOR} manager={manager} address={wallet?.address} onBeTheManager={console.log}/>
+                <Manager color={MAIN_COLOR} manager={manager} address={wallet?.address} onBeTheManager={beTheManager}/>
                 <Spin tip='Loading...' size='large' spinning={isCharitiesLoading}>
                     <Flex justify='space-around'>
                         {charities.map(charity => <CharityCard
