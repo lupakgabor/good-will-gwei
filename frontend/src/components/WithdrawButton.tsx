@@ -1,6 +1,11 @@
 import {Button, Popconfirm} from "antd";
 
-export const WithdrawButton = ({onConfirm, disabled}: {onConfirm: () => void, disabled: boolean}) => (
+type WithdrawButtonProps = {
+    onConfirm: () => void,
+    disabled: boolean
+}
+
+export const WithdrawButton = ({onConfirm, disabled}: WithdrawButtonProps) => (
     <Popconfirm
         title="Withdraw funds"
         description="Are you sure to withraw all funds"

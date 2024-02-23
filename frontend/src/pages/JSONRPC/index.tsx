@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import {fetchContractData} from "./web3";
 import {Charity} from "@/types";
 import {Flex, Spin} from "antd";
-import {compareAddresses} from "@/pages/Alchemy/utils";
+import {compareAddresses} from "@/utils";
 import {useSendTransaction} from "./hooks";
 import {Wallet} from "./types";
 
@@ -16,7 +16,7 @@ const MAIN_COLOR = '#ecae7f'
 export const JSONRPC = () => {
     const [wallet, setWallet] = useState<Wallet | null>(null)
     const {isLoading, sendTransaction} = useSendTransaction(wallet);
-    const [manager, setManager] = useState('');
+    const [manager, setManager] = useState<`0x${string}`>();
     const [charities, setCharities] = useState<Charity[]>([])
     const [isCharitiesLoading, setIsCharityLoading] = useState(true);
     const [isNewCharityModalOpen, setIsNewCharityModalOpen] = useState(false);
@@ -66,7 +66,7 @@ export const JSONRPC = () => {
                     <Flex justify='space-around'>
                         {charities.map(charity => <CharityCard
                             key={charity.charityAddress}
-                            {...charity}
+                            charity={charity}
                             manager={manager}
                             walletAddress={wallet?.address}
                             onDonate={console.log}

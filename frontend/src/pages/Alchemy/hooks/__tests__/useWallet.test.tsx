@@ -5,13 +5,7 @@ import {useWallet} from "../useWallet";
 import {expect} from "vitest";
 import {mockAddress, mockAddresses} from "@/__mocks__/Address";
 
-vi.mock('react-toastify', () => {
-    return {
-        toast: {
-            error: vi.fn(),
-        },
-    };
-});
+vi.mock('react-toastify');
 
 
 const WrapperComponent = () => {

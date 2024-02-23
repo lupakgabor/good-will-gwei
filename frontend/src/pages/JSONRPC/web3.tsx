@@ -4,9 +4,7 @@ import {keccak256} from "ethereum-cryptography/keccak";
 import {abi} from "@/DonateABI";
 import {Utils} from 'alchemy-sdk';
 import {callRPC} from "@/pages/JSONRPC/callRPC";
-import {Wallet} from "@/pages/JSONRPC/types";
-
-type fnNameType = Extract<typeof abi[number], { "type": "function" }>['name'];
+import {abiFunctionNamesType, Wallet} from "@/pages/JSONRPC/types";
 
 type RPCMessage = {
     data: string;
@@ -35,7 +33,7 @@ export const createCallData = (fnName: string, paramTypes: ("string" | "address"
 }
 
 
-export const interactWithContract = async (fnName: fnNameType, parameters: `0x${string}`[] = [], transactionData = {}, wallet: Wallet | null = null) => {
+export const interactWithContract = async (fnName: abiFunctionNamesType, parameters: `0x${string}`[] = [], transactionData = {}, wallet: Wallet | null = null) => {
     const abiFn = abi.find(fn => fn.type === 'function' && fn.name === fnName)
     const inputSignature = abiFn?.inputs.map(input => input.type);
 
@@ -61,7 +59,7 @@ export const interactWithContract = async (fnName: fnNameType, parameters: `0x${
 }
 
 
-export const fetchContractData = async (fnName: fnNameType, parameters: `0x${string}`[] = []) => {
+export const fetchContractData = async (fnName: abiFunctionNamesType, parameters: `0x${string}`[] = []) => {
     const abiFn = abi.find(fn => fn.type === 'function' && fn.name === fnName)
     const response = await interactWithContract(fnName, parameters);
 

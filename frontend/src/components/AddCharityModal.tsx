@@ -2,6 +2,7 @@ import {Form, Input, Modal} from 'antd';
 import {Charity} from "@/types";
 import {useState} from "react";
 
+
 type AddCharityModalProps = {
     isOpen: boolean;
     handleClose: () => void;

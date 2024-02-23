@@ -1,10 +1,9 @@
 import {getAddressFromPrivateKey} from "../utils";
+import {mockPrivateKey} from "@/__mocks__";
 
 describe('getAddressFromPrivateKey', () => {
     it('should return with the address', () => {
-        const privateKey = '0xdc921d27d367c2f87706aef853647b7547d43f76aca9a56e62f38eb325439c92';
-
-        const address = getAddressFromPrivateKey(privateKey);
+        const address = getAddressFromPrivateKey(mockPrivateKey);
 
         expect(address).to.eq('0x243d866f2ddb257a8751b8cf070b119a091c1bc6');
     });

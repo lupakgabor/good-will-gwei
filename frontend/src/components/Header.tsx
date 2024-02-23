@@ -35,7 +35,6 @@ export const Header = () => {
         navigate(e.key)
     };
 
-
     return (
         <Layout.Header className="flex items-center bg-white">
             <Link to='/'>

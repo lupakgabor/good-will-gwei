@@ -2,13 +2,13 @@ import {Button, Form, Input, Modal} from "antd";
 import {useState} from "react";
 
 
-type DonateButtonType = {
+type DonateButtonProps = {
     charityName: string;
     onDonate: (amount: number) => void;
     disabled: boolean;
 }
 
-export const DonateButton = ({charityName, onDonate, disabled}: DonateButtonType) => {
+export const DonateButton = ({charityName, onDonate, disabled}: DonateButtonProps) => {
     const [form] = Form.useForm();
     const [isOpen, setIsOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);

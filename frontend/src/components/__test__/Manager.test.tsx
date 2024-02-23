@@ -30,7 +30,7 @@ describe('Manager', () => {
     });
 
     it('should not display anything when the addresses are empty', async () => {
-        render(<Manager color="#fff" manager='' address='' onBeTheManager={vi.fn} />);
+        render(<Manager color="#fff" onBeTheManager={vi.fn} />);
 
         const button = screen.queryByRole('button');
         const text = screen.queryByText('Manager is');
@@ -40,7 +40,7 @@ describe('Manager', () => {
     });
 
     it('should disabled the button if address is missing', async () => {
-        render(<Manager color="#fff" manager={mockAddress} address='' onBeTheManager={vi.fn} />);
+        render(<Manager color="#fff" manager={mockAddress} onBeTheManager={vi.fn} />);
 
         const button = await screen.findByRole('button');
 

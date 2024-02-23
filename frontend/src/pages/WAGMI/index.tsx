@@ -11,7 +11,7 @@ import {ConnectButton} from "./components";
 import {useFetchContractData, useRefreshObserver, useWriteContractData} from "./hooks";
 import {useAccount} from "wagmi";
 import {Flex, Spin} from "antd";
-import {compareAddresses} from "@/pages/Alchemy/utils";
+import {compareAddresses} from "@/utils";
 import {useState} from "react";
 
 
@@ -42,7 +42,7 @@ export const WAGMI = () => {
                     <Flex justify='space-around'>
                         {charities.map(charity => <CharityCard
                             key={charity.charityAddress}
-                            {...charity}
+                            charity={charity}
                             manager={manager}
                             walletAddress={account.address}
                             onDonate={donateToCharity}

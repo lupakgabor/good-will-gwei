@@ -5,45 +5,21 @@ import {render, screen} from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import {useSendTransaction} from "../useSendTransaction";
 
-vi.mock('react-toastify', () => {
-    return {
-        toast: {
-            success: vi.fn(),
-            warning: vi.fn(),
-            error: vi.fn(),
-            dismiss: vi.fn(),
-        },
-    };
-});
+vi.mock('react-toastify');
+vi.mock('alchemy-sdk');
 
-vi.mock('alchemy-sdk', () => ({
-    Alchemy: vi.fn(() => ({
-        transact: {
-            waitForTransaction: vi.fn(),
-        },
-    })),
-    Network: 'test',
-}));
-
-
-type WrapperComponentType = {
-    from: string;
-    data: string;
-    gas: number;
-}
-
-const WrapperComponent = ({from, data, gas}: WrapperComponentType) => {
+const WrapperComponent = () => {
     const {isLoading, sendTransaction} = useSendTransaction();
     return <div>
         <p>{isLoading ? 'Loading...' : 'Loaded'}</p>
-        <button onClick={() => sendTransaction(from, data, gas)}>Send transaction</button>
+        <button onClick={() => sendTransaction(mockAddress, '0x0', 100)}>Send transaction</button>
     </div>;
 };
 
 
 describe('sendTransaction', () => {
     it('shows error because metamask is not installed', async () => {
-        render(<WrapperComponent from={mockAddress} data='0x0' gas={100}/>);
+        render(<WrapperComponent />);
         const button = await screen.findByRole('button');
         const text = await screen.findByText('Loaded');
 
@@ -59,7 +35,7 @@ describe('sendTransaction', () => {
                 throw Error("Reverted")
             })
         }
-        render(<WrapperComponent from={mockAddress} data='0x0' gas={100}/>);
+        render(<WrapperComponent />);
         const button = await screen.findByRole('button');
         const text = await screen.findByText('Loaded');
 
@@ -73,7 +49,7 @@ describe('sendTransaction', () => {
         window.ethereum = {
             request: vi.fn(() => '0x123')
         }
-        render(<WrapperComponent from={mockAddress} data='0x0' gas={100}/>);
+        render(<WrapperComponent />);
         const button = await screen.findByRole('button');
         const text = await screen.findByText('Loaded');
 

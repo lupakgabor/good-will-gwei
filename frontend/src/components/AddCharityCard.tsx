@@ -2,7 +2,7 @@ import {Card} from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 
 
-export type NewCharityCardProps = {
+type NewCharityCardProps = {
     onClick: () => void;
     disabled: boolean;
 }

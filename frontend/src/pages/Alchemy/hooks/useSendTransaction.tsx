@@ -14,7 +14,7 @@ const alchemy = new Alchemy(settings);
 export const useSendTransaction = () => {
     const [isLoading, setIsLoading] = useState(false);
 
-    const sendTransaction = async (from: string, data: string, gas: number, value: number = 0) => {
+    const sendTransaction = async (from: `0x${string}`, data: string, gas: number, value: number = 0) => {
         if (window.ethereum) {
             const weiAmount = ethers.utils.parseEther((value).toString());
             const transactionParameters = {

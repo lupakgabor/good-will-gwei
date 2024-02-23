@@ -4,12 +4,12 @@ import {mockAddresses, mockCharity} from "@/__mocks__";
 import {expect} from "vitest";
 import userEvent from "@testing-library/user-event";
 
-const setUp = (walletAddress: string = '', manager: string = '') => {
+const setUp = (walletAddress?: `0x${string}`, manager?: `0x${string}`) => {
     const onDonate = vi.fn();
     const onWithdraw = vi.fn();
     const onRemove = vi.fn();
     render(<CharityCard
-        {...mockCharity}
+        charity={mockCharity}
         onDonate={onDonate}
         onWithdraw={onWithdraw}
         onRemove={onRemove}

@@ -1,6 +1,12 @@
 import {Button, Popconfirm} from "antd";
 
-export const RemoveButton = ({onConfirm, disabled}: {onConfirm: () => void, disabled: boolean}) => (
+type RemoveButtonProps = {
+    onConfirm: () => void;
+    disabled: boolean;
+}
+
+
+export const RemoveButton = ({onConfirm, disabled}: RemoveButtonProps) => (
     <Popconfirm
         title="Remove charity"
         description="Are you sure to remove this charity?"

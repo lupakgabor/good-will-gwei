@@ -12,7 +12,7 @@ import {
     ContentBody
 } from "@/components";
 import {useWallet, useSendTransaction} from "./hooks";
-import {compareAddresses, formatAddress} from "./utils";
+import {compareAddresses, formatAddress} from "@/utils";
 import {donate} from "./contracts/Donate";
 
 const MAIN_COLOR = '#21aeef';
@@ -20,11 +20,9 @@ const MAIN_COLOR = '#21aeef';
 export const Alchemy = () => {
     const {isLoading, sendTransaction} = useSendTransaction();
     const {connectWallet, walletAddress} = useWallet();
-    const [manager, setManager] = useState('');
+    const [manager, setManager] = useState<`0x${string}`>();
     const [isNewCharityModalOpen, setIsNewCharityModalOpen] = useState(false);
     const [charities, setCharities] = useState<Charity[]>([])
-    const isManager = compareAddresses(manager, walletAddress);
-    const disableEdit = walletAddress === null || !window.ethereum;
     const [isCharitiesLoading, setIsCharityLoading] = useState(true);
 
     useEffect(() => {
@@ -56,36 +54,36 @@ export const Alchemy = () => {
         setIsCharityLoading(false);
     }
 
-    const beTheManager = async (address: string) => {
+    const beTheManager = async (address: `0x${string}`) => {
         const callData = donate.methods.beTheManager().encodeABI();
         await sendTransaction(address, callData, 150000);
     }
 
     const addNewCharity = async (values: Charity) => {
         const callData = donate.methods.addCharity(values.charityAddress, values.name, values.description).encodeABI();
-        await sendTransaction(walletAddress, callData, 250000);
+        await sendTransaction(walletAddress!, callData, 250000);
     }
 
     const donateToCharity = async (address: string, amount: number) => {
         const callData = donate.methods.donate(address).encodeABI();
-        await sendTransaction(walletAddress, callData, 150000, amount);
+        await sendTransaction(walletAddress!, callData, 150000, amount);
     }
 
     const withdrawFunds = async () => {
         const callData = donate.methods.withdraw().encodeABI();
-        await sendTransaction(walletAddress, callData, 150000);
+        await sendTransaction(walletAddress!, callData, 150000);
     }
 
     const removeCharity = async (address: string) => {
         const callData = donate.methods.removeCharity(address).encodeABI();
-        await sendTransaction(walletAddress, callData, 150000);
+        await sendTransaction(walletAddress!, callData, 150000);
     }
 
     return (
         <BasePage>
             <ContentHeader bgColor={MAIN_COLOR} title="Alchemy">
                 <Button type={"primary"} onClick={connectWallet}>
-                    {walletAddress.length > 0 ? `Connected: ${formatAddress(walletAddress)}` : 'Connect Wallet'}
+                    {walletAddress && walletAddress.length > 0 ? `Connected: ${formatAddress(walletAddress)}` : 'Connect Wallet'}
                 </Button>
             </ContentHeader>
             <ContentBody>
@@ -94,7 +92,7 @@ export const Alchemy = () => {
                     <Flex justify='space-around'>
                         {charities.map(charity => <CharityCard
                             key={charity.charityAddress}
-                            {...charity}
+                            charity={charity}
                             manager={manager}
                             walletAddress={walletAddress}
                             onDonate={donateToCharity}
@@ -102,7 +100,7 @@ export const Alchemy = () => {
                             onRemove={removeCharity}
                         />)}
                         <AddCharityCard
-                            disabled={disableEdit || !isManager}
+                            disabled={!compareAddresses(manager, walletAddress)}
                             onClick={() => setIsNewCharityModalOpen(true)}
                         />
                     </Flex>

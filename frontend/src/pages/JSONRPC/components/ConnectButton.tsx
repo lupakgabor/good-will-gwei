@@ -1,6 +1,6 @@
 import {Button, Form, Input, Modal} from "antd";
 import {useEffect, useState} from "react";
-import {formatAddress} from "@/pages/Alchemy/utils";
+import {formatAddress} from "@/utils";
 import {getAddressFromPrivateKey} from "../utils";
 import {useLocalStorage} from "../hooks";
 import type {Wallet} from "../types";

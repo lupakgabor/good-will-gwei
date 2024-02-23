@@ -1,8 +1,11 @@
 import {ReactNode} from "react";
 import {theme} from "antd";
 
+type ContentBodyProps = {
+    children: ReactNode,
+}
 
-export const ContentBody = ({children}: { children: ReactNode }) => {
+export const ContentBody = ({children}: ContentBodyProps) => {
     const {
         token: {colorBgContainer},
     } = theme.useToken();

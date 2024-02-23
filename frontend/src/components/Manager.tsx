@@ -1,11 +1,11 @@
-import {compareAddresses, formatAddress} from "@/pages/Alchemy/utils";
+import {compareAddresses, formatAddress} from "@/utils";
 import {Button} from "antd";
 
 type ManagerProps = {
     color: string;
-    manager?: string;
-    address?: string;
-    onBeTheManager: (address: string) => void;
+    manager?: `0x${string}`;
+    address?: `0x${string}`;
+    onBeTheManager: (address: `0x${string}`) => void;
     loading?: boolean;
 }
 

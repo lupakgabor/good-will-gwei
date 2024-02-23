@@ -1,7 +1,7 @@
 import {useAccount, useConnect, useDisconnect} from "wagmi";
 import {Button} from "antd";
 import {injected} from "wagmi/connectors";
-import {formatAddress} from "@/pages/Alchemy/utils";
+import {formatAddress} from "@/utils";
 import {useEffect} from "react";
 import {errorHandler} from "@/pages/WAGMI/utils";
 

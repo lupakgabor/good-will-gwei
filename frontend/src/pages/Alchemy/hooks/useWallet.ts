@@ -3,7 +3,7 @@ import {toast} from "react-toastify";
 
 
 export const useWallet = () => {
-    const [walletAddress, setWalletAddress] = useState('');
+    const [walletAddress, setWalletAddress] = useState<`0x${string}`>();
 
     const connectWallet = async () => {
         if (window.ethereum) {
@@ -39,7 +39,7 @@ export const useWallet = () => {
 
     const addWalletListener = () => {
         if (window.ethereum) {
-            window.ethereum.on("accountsChanged", (accounts: string[]) => {
+            window.ethereum.on("accountsChanged", (accounts: `0x${string}`[]) => {
                 if (accounts.length > 0) {
                     setWalletAddress(accounts[0]);
                 }

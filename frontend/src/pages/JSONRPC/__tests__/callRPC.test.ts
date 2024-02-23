@@ -1,25 +1,18 @@
 import {callRPC} from "../callRPC";
 import {expect} from "vitest";
 import {toast} from "react-toastify";
+import {mockAddress} from "@/__mocks__";
 
-vi.mock('react-toastify', () => {
-    return {
-        toast: {
-            error: vi.fn(),
-        },
-    };
-});
+vi.mock('react-toastify');
+
 describe('callRPC', () => {
     it('call RPC without any error', async () => {
         // @ts-ignore
         global.fetch = vi.fn(() =>
             Promise.resolve({
-                ok: true,
-                json: () => {
-                    return Promise.resolve({
-                        result: `0x123`,
-                    });
-                },
+                json: () => Promise.resolve({
+                    result: mockAddress,
+                })
             })
         );
 
@@ -34,21 +27,18 @@ describe('callRPC', () => {
             }),
         });
 
-        expect(response).eq('0x123');
+        expect(response).eq(mockAddress);
     });
 
     it('call RPC with RPC error', async () => {
         // @ts-ignore
         global.fetch = vi.fn(() =>
             Promise.resolve({
-                ok: true,
-                json: () => {
-                    return Promise.resolve({
-                        error: {
-                            message: 'Error given by RPC Call',
-                        },
-                    });
-                },
+                json: () => Promise.resolve({
+                    error: {
+                        message: 'Error given by RPC Call',
+                    },
+                }),
             })
         );
 
