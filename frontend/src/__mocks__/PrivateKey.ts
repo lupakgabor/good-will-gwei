@@ -1,2 +1,1 @@
-
 export const mockPrivateKey = '0xdc921d27d367c2f87706aef853647b7547d43f76aca9a56e62f38eb325439c92';
