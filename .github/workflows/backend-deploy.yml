@@ -1,0 +1,52 @@
+name: Deploy smart contract to Sepolia 🚀
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'backend/**'
+jobs:
+    deploy:
+      runs-on: ubuntu-latest
+      permissions:
+          contents: write
+      defaults:
+        run:
+          working-directory: ./backend
+      steps:
+        - uses: actions/checkout@master
+        - name: Set up Node.js ⚙️
+          uses: actions/setup-node@v3
+          with:
+            node-version: 20
+            cache: yarn
+            cache-dependency-path: ./backend/yarn.lock
+        - name: Create env file
+          run: |
+            touch .env
+            echo SEPOLIA_RPC_URL=${{ secrets.SEPOLIA_RPC_URL }} >> .env
+            echo PRIVATE_KEY=${{ secrets.PRIVATE_KEY }} >> .env
+            echo ETHERSCAN_API_KEY=${{ secrets.ETHERSCAN_API_KEY }} >> .env
+        - name: Install dependencies 📦
+          run: yarn install
+        - name: Run tests 💡
+          run: yarn test
+        - name: Deploy to network
+          id: deploy
+          run: >-
+            echo "CONTRACT_ADDRESS=$(
+              yarn deploy-sepolia | grep  -o '0x[0-9a-zA-Z]*'
+            )"  >> $GITHUB_OUTPUT
+        - name: Print deployed contract address
+          run: echo ${{ steps.deploy.outputs.CONTRACT_ADDRESS }}
+        - name: Verify deployed contract
+          run: yarn verify-sepolia ${{ steps.deploy.outputs.CONTRACT_ADDRESS }}
+        - name: Extract abi from hardhat artifact
+          uses: sergeysova/jq-action@v2
+          with:
+            cmd: 'jq .abi ./backend/artifacts/contracts/Donate.sol/Donate.json > ./backend/contracts/DonateABI.json'
+        - name: Inject deployed contract address
+          run: |
+            sed 's/{{CONTRACT_ADDRESS}}/${{ steps.deploy.outputs.CONTRACT_ADDRESS }}/g' templates/README.md.tpl > /tmp/README.md
+            sed 's/{{GITHUB_SHA}}/${{github.sha}}/g' /tmp/README.md > README.md
+            sed -i '1s/^/\[\/\/\]\: # (GENERATED FILE DO NOT EDIT DIRECTLY)\n/' README.md
+        - uses: stefanzweifel/git-auto-commit-action@v5
