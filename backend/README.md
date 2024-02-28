@@ -24,8 +24,8 @@ For contract deployment on the Sepolia network:
 
 ### Latest automatically deployed version on Sepolia
 
-Deployed Contract: 0x27B50343816e13F924779fE5f049Dd6C5680493C
+Deployed Contract: 0xc55846a58279965E143fa291E12c1D6bB3a0c490
 
-[Open generated ABI](https://raw.githubusercontent.com/lupakgabor/gwg/main/backend/contracts/DonateABI.json)
+[Open generated ABI](https://raw.githubusercontent.com/lupakgabor/good-will-gwei/main/backend/contracts/DonateABI.json)
 
-<sub>Commit hash: ea703de6f7f6677916e8d9a68bb7168e9ef6847f</sub>
+<sub>Commit hash: 4622fad22c684a12a19268ef6d2db343be912a12</sub>
