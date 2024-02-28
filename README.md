@@ -2,6 +2,10 @@
 
 Welcome to the **Good Will Gwei** project! This is a demonstration project aimed at practicing web3 technologies. The core objective of this project is to provide a platform where users can register various charity organizations and allow users to send donations to them using the power of web3.
 
+## [Click for the Demo](https://good-will-gwei.vercel.app/)
+
+---
+
 ## Project Overview
 
 Good Will Gwei is divided into two main parts:
