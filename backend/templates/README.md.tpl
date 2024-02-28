@@ -25,6 +25,6 @@ For contract deployment on the Sepolia network:
 
 Deployed Contract: {{CONTRACT_ADDRESS}}
 
-[Open generated ABI](https://raw.githubusercontent.com/lupakgabor/gwg/main/backend/contracts/DonateABI.json)
+[Open generated ABI](https://raw.githubusercontent.com/lupakgabor/good-will-gwei/main/backend/contracts/DonateABI.json)
 
 <sub>Commit hash: {{GITHUB_SHA}}</sub>
