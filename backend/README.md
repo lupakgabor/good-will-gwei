@@ -1,3 +1,4 @@
+[//]: # (GENERATED FILE DO NOT EDIT DIRECTLY)
 ## Good Will Gwei Backend
 
 This is the backend component of the Good Will Gwei project, a blockchain-based donation platform leveraging the power of smart contracts to facilitate transparent and secure transactions for charitable causes.
@@ -23,8 +24,8 @@ For contract deployment on the Sepolia network:
 
 ### Latest automatically deployed version on Sepolia
 
-Deployed Contract: {{CONTRACT_ADDRESS}}
+Deployed Contract: 0x27B50343816e13F924779fE5f049Dd6C5680493C
 
 [Open generated ABI](https://raw.githubusercontent.com/lupakgabor/gwg/main/backend/contracts/DonateABI.json)
 
-<sub>Commit hash: {{GITHUB_SHA}}</sub>
+<sub>Commit hash: ea703de6f7f6677916e8d9a68bb7168e9ef6847f</sub>
