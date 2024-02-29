@@ -33,7 +33,7 @@ export const WAGMI = () => {
 			<ContentBody>
 				<Manager color={MAIN_COLOR} manager={manager} address={account.address} onBeTheManager={beTheManager} />
 				<Spin tip="Loading..." size="large" spinning={isCharitiesLoading}>
-					<Flex justify="space-around">
+					<Flex wrap="wrap" gap="large" justify="center">
 						{charities.map((charity) => (
 							<CharityCard
 								key={charity.charityAddress}

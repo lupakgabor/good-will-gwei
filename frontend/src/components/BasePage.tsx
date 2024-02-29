@@ -9,9 +9,9 @@ type BasePageProps = {
 
 export const BasePage = ({ children }: BasePageProps) => {
 	return (
-		<Layout className="h-full">
+		<Layout className="min-h-full">
 			<Header />
-			<Layout.Content className="mt-5 px-20">{children}</Layout.Content>
+			<Layout.Content className="mt-5 sm:px-20">{children}</Layout.Content>
 			<Footer />
 		</Layout>
 	);

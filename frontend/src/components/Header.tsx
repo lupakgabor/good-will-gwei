@@ -1,5 +1,5 @@
 import { AppstoreOutlined, GithubOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
-import { Avatar, Layout, Menu, theme } from 'antd';
+import { Alert, Avatar, Layout, Menu, theme } from 'antd';
 import type { MenuProps } from 'antd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
@@ -33,16 +33,38 @@ export const Header = () => {
 	};
 
 	return (
-		<Layout.Header className="flex items-center bg-white">
-			<Link to="/">
-				<div className="demo-logo text-black pr-10 font-bold text-3xl">
-					Good <span style={{ color: colorPrimary }}>Will</span> Gwei
-				</div>
-			</Link>
-			<Menu mode="horizontal" onClick={onClick} selectedKeys={[location.pathname]} items={items} className="flex-1" />
-			<a href="https://github.com/lupakgabor/good-will-gwei" target="_blank" rel="noopener noreferrer">
-				<Avatar size="large" className="text-white hover:bg-blue-500" icon={<GithubOutlined />} />
-			</a>
-		</Layout.Header>
+		<div>
+			<Layout.Header className="flex items-center bg-white sm:px-4 px-2">
+				<Link to="/">
+					<div className="demo-logo text-black sm:pr-10 font-bold sm:text-3xl text-xl">
+						<span className="max-sm:hidden">
+							Good <span style={{ color: colorPrimary }}>Will</span> Gwei
+						</span>
+						<span className="sm:hidden">
+							G<span style={{ color: colorPrimary }}>W</span>G
+						</span>
+					</div>
+				</Link>
+				<Menu
+					style={{ flex: 'auto', minWidth: 0 }}
+					mode="horizontal"
+					onClick={onClick}
+					selectedKeys={[location.pathname]}
+					items={items}
+				/>
+				<a href="https://github.com/lupakgabor/good-will-gwei" target="_blank" rel="noopener noreferrer">
+					<Avatar size={40} className="text-white hover:bg-blue-500" icon={<GithubOutlined />} />
+				</a>
+			</Layout.Header>
+			<Alert
+				message={
+					<span>
+						This is only a Sepolia <b>Testnet</b> application!
+					</span>
+				}
+				type="warning"
+				banner
+			/>
+		</div>
 	);
 };

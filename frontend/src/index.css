@@ -2,15 +2,18 @@
 @tailwind utilities;
 
 html {
-  @apply h-full;
+    @apply h-full;
 }
+
 body {
-  @apply h-full;
+    @apply h-full;
+    margin: 0;
 }
+
 div#root {
-  @apply h-full;
+    @apply h-full;
 }
 
 .Toastify__toast-container--top-center {
-  width: 500px;
+    width: 500px;
 }
