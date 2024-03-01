@@ -5,12 +5,7 @@ import { Utils } from 'alchemy-sdk';
 import { keccak256 } from 'ethereum-cryptography/keccak';
 import { bytesToHex, utf8ToBytes } from 'ethereum-cryptography/utils';
 import { Wallet as EtherWallet, ethers } from 'ethers';
-
-type RPCMessage = {
-	data: string;
-	value?: string;
-	gasLimit?: string;
-};
+import { toast } from 'react-toastify';
 
 export const createParamsSignature = (params: string[] = []) => {
 	return `(${params.join(',')})`;
@@ -19,46 +14,45 @@ export const createParamsSignature = (params: string[] = []) => {
 export const createCallData = (
 	fnName: string,
 	paramTypes: ('string' | 'address' | 'uint256')[] = [],
-	params: `0x${string}`[] = [],
+	params: (`0x${string}` | string)[] = [],
 ) => {
-	let callData = bytesToHex(keccak256(utf8ToBytes(`${fnName}${createParamsSignature(paramTypes)}`)).slice(0, 4));
+	let encodedFunctionName = bytesToHex(
+		keccak256(utf8ToBytes(`${fnName}${createParamsSignature(paramTypes)}`)).slice(0, 4),
+	);
+	const encodedParams = new ethers.utils.AbiCoder().encode(paramTypes, params)?.slice(2) ?? '';
 
-	if (params.length > 0) {
-		params.forEach((param) => {
-			if (param.startsWith('0x')) {
-				callData += param.slice(2).padStart(64, '0'); // Remove 0x and add 0 to the beginning
-			} else {
-				throw Error('This type of param is not implemented!');
-			}
-		});
-	}
-
-	return `0x${callData}`;
+	return `0x${encodedFunctionName}${encodedParams}`;
 };
 
 export const interactWithContract = async (
 	fnName: abiFunctionNamesType,
-	parameters: `0x${string}`[] = [],
+	parameters: (`0x${string}` | string)[] = [],
 	transactionData = {},
 	wallet: Wallet | null = null,
 ) => {
-	const abiFn = abi.find((fn) => fn.type === 'function' && fn.name === fnName);
-	const inputSignature = abiFn?.inputs.map((input) => input.type);
+	try {
+		const abiFn = abi.find((fn) => fn.type === 'function' && fn.name === fnName);
+		const inputSignature = abiFn?.inputs.map((input) => input.type);
 
-	const transaction = {
-		to: import.meta.env.VITE_CONTRACT_ADDRESS as string,
-		data: createCallData(fnName, inputSignature, parameters),
-		...transactionData,
-	};
+		const transaction = {
+			to: import.meta.env.VITE_CONTRACT_ADDRESS as string,
+			data: createCallData(fnName, inputSignature, parameters),
+			...transactionData,
+		};
 
-	if (wallet) {
-		return await callRPC('eth_sendRawTransaction', [await signMessage(transaction, wallet)]);
-	} else {
-		return await callRPC('eth_call', [transaction]);
+		if (wallet) {
+			return await callRPC('eth_sendRawTransaction', [await signMessage(transaction, wallet)]);
+		} else {
+			return await callRPC('eth_call', [transaction]);
+		}
+	} catch (error) {
+		let message = 'Unknown Error';
+		if (error instanceof Error) message = error.message;
+		toast.error(message);
 	}
 };
 
-export const fetchContractData = async (fnName: abiFunctionNamesType, parameters: `0x${string}`[] = []) => {
+export const fetchContractData = async (fnName: abiFunctionNamesType, parameters: (`0x${string}` | string)[] = []) => {
 	const abiFn = abi.find((fn) => fn.type === 'function' && fn.name === fnName);
 	const response = await interactWithContract(fnName, parameters);
 
@@ -73,7 +67,7 @@ export const fetchContractData = async (fnName: abiFunctionNamesType, parameters
 	}
 };
 
-const signMessage = async (message: RPCMessage, wallet: Wallet) => {
+const signMessage = async (message: {}, wallet: Wallet) => {
 	// TODO: all this transaction data is required? How could these be more dynamic
 	const transaction = {
 		...message,
@@ -95,7 +89,6 @@ export const getTransactionReceipt = async (hash: string) =>
 	new Promise((resolve, reject) => {
 		let tries = 0;
 		const intervalId = setInterval(async () => {
-			console.log('iiii id', intervalId);
 			try {
 				const transaction = await callRPC('eth_getTransactionReceipt', [hash]);
 				if (transaction) {

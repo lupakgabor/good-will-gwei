@@ -50,7 +50,23 @@ export const JSONRPC = () => {
 	};
 
 	const beTheManager = async () => {
-		await sendTransaction('beTheManager');
+		await sendTransaction('beTheManager', [], 21064);
+	};
+
+	const donateToCharity = async (address: `0x${string}`, amount: number) => {
+		await sendTransaction('donate', [address], 150000, amount);
+	};
+
+	const addNewCharity = async (values: Charity) => {
+		await sendTransaction('addCharity', [values.charityAddress, values.name, values.description], 250000);
+	};
+
+	const withdrawFunds = async () => {
+		await sendTransaction('withdraw', [], 150000);
+	};
+
+	const removeCharity = async (address: string) => {
+		await sendTransaction('removeCharity', [address], 150000);
 	};
 
 	return (
@@ -68,9 +84,9 @@ export const JSONRPC = () => {
 								charity={charity}
 								manager={manager}
 								walletAddress={wallet?.address}
-								onDonate={console.log}
-								onWithdraw={console.log}
-								onRemove={console.log}
+								onDonate={donateToCharity}
+								onWithdraw={withdrawFunds}
+								onRemove={removeCharity}
 							/>
 						))}
 						<AddCharityCard disabled={!wallet?.address || !isManager} onClick={() => setIsNewCharityModalOpen(true)} />
@@ -80,7 +96,7 @@ export const JSONRPC = () => {
 			<AddCharityModal
 				isOpen={isNewCharityModalOpen}
 				handleClose={() => setIsNewCharityModalOpen(false)}
-				onCreate={console.log}
+				onCreate={addNewCharity}
 			/>
 		</BasePage>
 	);

@@ -1,4 +1,5 @@
 import { TransactionInProgress } from '@/components';
+import { Utils } from 'alchemy-sdk';
 import { Button } from 'antd';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
@@ -7,15 +8,20 @@ import { getTransactionReceipt, interactWithContract } from '../web3';
 
 export const useSendTransaction = (wallet: Wallet | null) => {
 	const [isLoading, setIsLoading] = useState(false);
-	const sendTransaction = async (fnName: abiFunctionNamesType, parameters: `0x${string}`[] = []) => {
+	const sendTransaction = async (
+		fnName: abiFunctionNamesType,
+		parameters: (`0x${string}` | string)[] = [],
+		gas: number = 21000,
+		value: number = 0,
+	) => {
 		if (wallet) {
 			setIsLoading(true);
 			const hash = await interactWithContract(
 				fnName,
 				parameters,
 				{
-					value: 0, // Utils.parseEther("0.001").toHexString(),
-					gasLimit: '210000',
+					value: Utils.parseEther(value.toString()).toHexString(),
+					gasLimit: gas.toString(),
 				},
 				wallet,
 			);

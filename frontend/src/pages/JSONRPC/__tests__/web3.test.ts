@@ -13,7 +13,10 @@ vi.stubEnv('VITE_CONTRACT_ADDRESS', '0xCONTRACT_ADDRESS');
 const mockCallRPC = callRPC as Mock;
 const mockEWallet = EWallet as unknown as Mock;
 const mockAbiCoder = ethers.utils.AbiCoder as unknown as Mock;
-const wallet: Wallet = { address: '0xWALLET_ADDRESS', privateKey: mockPrivateKey };
+const wallet: Wallet = {
+	address: '0xWALLET_ADDRESS',
+	privateKey: mockPrivateKey,
+};
 
 describe('createParamSignature', () => {
 	it('should generate signature without any params', () => {
@@ -41,13 +44,16 @@ describe('createCallData', () => {
 	});
 
 	it('generate charities function call data', () => {
+		mockAbiCoder.mockReturnValue({
+			encode: () => '0x00000000000000000000000011111111111111E2f8BD914875FB269941111111',
+		});
 		const callData = createCallData('charities', ['address'], [mockAddress]);
 		expect(callData).eq('0x2478239a00000000000000000000000011111111111111E2f8BD914875FB269941111111');
 	});
 });
 
 describe('interactWithContract', () => {
-	it('call rpc wil simple data', async () => {
+	it('call rpc with simple data', async () => {
 		mockCallRPC.mockResolvedValue([mockAddress]);
 
 		const response = await interactWithContract('manager');
@@ -63,7 +69,9 @@ describe('interactWithContract', () => {
 
 	it('call rpc with params', async () => {
 		mockCallRPC.mockResolvedValue([mockAddress]);
-
+		mockAbiCoder.mockReturnValue({
+			encode: () => '0x0000000000000000000000000000000000000000000000000000000000022222',
+		});
 		const response = await interactWithContract('charities', ['0x22222'], {
 			testData: 12,
 		});
@@ -80,6 +88,9 @@ describe('interactWithContract', () => {
 
 	it('send transaction with wallet to rpc', async () => {
 		const mockSignTransaction = vi.fn(() => 'Signed msg');
+		mockAbiCoder.mockReturnValue({
+			encode: () => '0x0000000000000000000000000000000000000000000000000000000000022222',
+		});
 		mockCallRPC.mockResolvedValue([mockAddress]);
 		mockEWallet.mockReturnValue({
 			signTransaction: mockSignTransaction,
@@ -113,7 +124,7 @@ describe('interactWithContract', () => {
 describe('fetchContractData', () => {
 	it('fetch manager data', async () => {
 		mockCallRPC.mockResolvedValue([mockAddress]);
-		mockAbiCoder.mockReturnValue({ decode: () => [mockAddress] });
+		mockAbiCoder.mockReturnValue({ decode: () => [mockAddress], encode: () => undefined });
 		const manager = await fetchContractData('manager');
 
 		expect(manager).eq(mockAddress);
@@ -121,7 +132,7 @@ describe('fetchContractData', () => {
 
 	it('fetch all charities', async () => {
 		mockCallRPC.mockResolvedValue(['0x123234323423452345234523452345']);
-		mockAbiCoder.mockReturnValue({ decode: () => [mockAddress, '0x222'] });
+		mockAbiCoder.mockReturnValue({ decode: () => [mockAddress, '0x222'], encode: () => undefined });
 		const manager = await fetchContractData('getAllCharityAddress');
 
 		expect(manager).eql([mockAddress, '0x222']);
