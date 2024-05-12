@@ -26,7 +26,7 @@ contract Donate {
         return charityAddresses;
     }
 
-    function addCharity(address charityAddress, string memory name, string memory description) public payable managerOnly {
+    function addCharity(address charityAddress, string calldata name, string calldata description) public payable managerOnly {
         require(charities[charityAddress].charityAddress == address(0), "This charity is already in our list.");
 
         charities[charityAddress] = Charity({

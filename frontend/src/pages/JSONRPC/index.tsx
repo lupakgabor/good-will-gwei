@@ -50,11 +50,11 @@ export const JSONRPC = () => {
 	};
 
 	const beTheManager = async () => {
-		await sendTransaction('beTheManager', [], 21064);
+		await sendTransaction('beTheManager', [], 26294);
 	};
 
 	const donateToCharity = async (address: `0x${string}`, amount: number) => {
-		await sendTransaction('donate', [address], 150000, amount);
+		await sendTransaction('donate', [address], 46540, amount);
 	};
 
 	const addNewCharity = async (values: Charity) => {
@@ -62,11 +62,11 @@ export const JSONRPC = () => {
 	};
 
 	const withdrawFunds = async () => {
-		await sendTransaction('withdraw', [], 150000);
+		await sendTransaction('withdraw', [], 30980);
 	};
 
 	const removeCharity = async (address: string) => {
-		await sendTransaction('removeCharity', [address], 150000);
+		await sendTransaction('removeCharity', [address], 70000);
 	};
 
 	return (

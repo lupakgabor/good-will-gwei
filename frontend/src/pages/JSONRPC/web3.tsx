@@ -95,7 +95,7 @@ export const getTransactionReceipt = async (hash: string) =>
 					resolve(transaction);
 				} else {
 					tries++;
-					if (tries === 3) {
+					if (tries === 15) {
 						reject({ message: 'Transaction time out!' });
 						clearInterval(intervalId);
 					}
