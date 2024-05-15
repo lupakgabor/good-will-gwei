@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { Alchemy } from '@/pages/Alchemy';
 import { Home } from '@/pages/Home';
 import { JSONRPC } from '@/pages/JSONRPC';
+import { EthersJS } from "@/pages/EthersJS";
 import { WAGMI } from '@/pages/WAGMI';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -21,6 +22,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 			<Routes>
 				<Route element={<Home />} path="/" />
 				<Route element={<JSONRPC />} path="json-rpc" />
+				<Route element={<EthersJS />} path="ethersjs" />
 				<Route element={<Alchemy />} path="alchemy" />
 				<Route
 					element={

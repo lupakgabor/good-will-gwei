@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import alchemy from '../../assets/alchemy.png';
 import jsonRPC from '../../assets/json-rpc.jpg';
 import wagmi from '../../assets/wagmi.png';
+import ethersjs from '../../assets/ethersjs.png';
 
 export const Home = () => {
 	return (
@@ -24,6 +25,14 @@ export const Home = () => {
 						<Card.Meta
 							title="JSON-RPC"
 							description="JSON-RPC is a stateless, light-weight remote procedure call (RPC) protocol."
+						/>
+					</Card>
+				</Link>
+				<Link to="/ethersjs">
+					<Card hoverable className={'w-80'} cover={<img alt="ethersjs" src={ethersjs} className="h-96 w-28" />}>
+						<Card.Meta
+							title="Ethers.js"
+							description="Compact library for interacting with the Ethereum Blockchain and its ecosystem."
 						/>
 					</Card>
 				</Link>
