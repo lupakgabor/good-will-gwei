@@ -2,9 +2,9 @@ import { BasePage } from '@/components';
 import { Card, Flex, Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import alchemy from '../../assets/alchemy.png';
+import ethersjs from '../../assets/ethersjs.png';
 import jsonRPC from '../../assets/json-rpc.jpg';
 import wagmi from '../../assets/wagmi.png';
-import ethersjs from '../../assets/ethersjs.png';
 
 export const Home = () => {
 	return (

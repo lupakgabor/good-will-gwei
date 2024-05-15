@@ -1,4 +1,4 @@
-import { AppstoreOutlined, GithubOutlined, MailOutlined, SettingOutlined, CloudOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, CloudOutlined, GithubOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
 import { Alert, Avatar, Layout, Menu, theme } from 'antd';
 import type { MenuProps } from 'antd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';

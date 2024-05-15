@@ -2,9 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 import { Alchemy } from '@/pages/Alchemy';
+import { EthersJS } from '@/pages/EthersJS';
 import { Home } from '@/pages/Home';
 import { JSONRPC } from '@/pages/JSONRPC';
-import { EthersJS } from "@/pages/EthersJS";
 import { WAGMI } from '@/pages/WAGMI';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
