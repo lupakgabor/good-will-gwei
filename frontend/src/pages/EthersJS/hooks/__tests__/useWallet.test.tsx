@@ -19,16 +19,16 @@ const WrapperComponent = () => {
 
 describe('useWallet', () => {
 	describe('connectWallet', () => {
-        it('should show a toast to install Metamask', async () => {
-            window.ethereum = undefined;
-            render(<WrapperComponent/>);
-            const connectWallet = await screen.findByRole('button');
+		it('should show a toast to install Metamask', async () => {
+			window.ethereum = undefined;
+			render(<WrapperComponent />);
+			const connectWallet = await screen.findByRole('button');
 
-            await userEvent.click(connectWallet);
-            const address = screen.queryByText(mockAddress);
+			await userEvent.click(connectWallet);
+			const address = screen.queryByText(mockAddress);
 
-            await waitFor(() => expect(address).toBeFalsy());
-            expect(toast.error).toBeCalledWith('You must install Metamask, a virtual Ethereum wallet, in your browser.');
-        });
-    });
+			await waitFor(() => expect(address).toBeFalsy());
+			expect(toast.error).toBeCalledWith('You must install Metamask, a virtual Ethereum wallet, in your browser.');
+		});
+	});
 });
