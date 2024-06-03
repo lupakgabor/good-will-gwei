@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import alchemy from '../../assets/alchemy.png';
 import ethersjs from '../../assets/ethersjs.png';
 import jsonRPC from '../../assets/json-rpc.jpg';
+import thirdweb from '../../assets/thirdweb.png';
 import wagmi from '../../assets/wagmi.png';
 
 export const Home = () => {
@@ -47,6 +48,14 @@ export const Home = () => {
 				<Link to="/wagmi">
 					<Card hoverable className={'w-80'} cover={<img alt="wagmi" src={wagmi} className="h-96 w-28" />}>
 						<Card.Meta title="WAGMI" description="Type Safe, Extensible, and Modular by design." />
+					</Card>
+				</Link>
+				<Link to="/thirdweb">
+					<Card hoverable className={'w-80'} cover={<img alt="thirdweb" src={thirdweb} className="h-96 w-28" />}>
+						<Card.Meta
+							title="thirdweb"
+							description="Everything you need to connect your apps to decentralized networks."
+						/>
 					</Card>
 				</Link>
 			</Flex>

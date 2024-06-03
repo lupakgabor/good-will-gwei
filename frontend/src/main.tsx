@@ -5,6 +5,7 @@ import { Alchemy } from '@/pages/Alchemy';
 import { EthersJS } from '@/pages/EthersJS';
 import { Home } from '@/pages/Home';
 import { JSONRPC } from '@/pages/JSONRPC';
+import { ThirdwebWrapper } from '@/pages/Thirdweb';
 import { WAGMI } from '@/pages/WAGMI';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 				<Route element={<JSONRPC />} path="json-rpc" />
 				<Route element={<EthersJS />} path="ethersjs" />
 				<Route element={<Alchemy />} path="alchemy" />
+				<Route element={<ThirdwebWrapper />} path="thirdweb" />
 				<Route
 					element={
 						<WagmiProvider config={config}>

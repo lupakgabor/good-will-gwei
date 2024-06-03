@@ -1,4 +1,11 @@
-import { AppstoreOutlined, CloudOutlined, GithubOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import {
+	AppstoreOutlined,
+	CloudOutlined,
+	GithubOutlined,
+	MailOutlined,
+	ProductOutlined,
+	SettingOutlined,
+} from '@ant-design/icons';
 import { Alert, Avatar, Layout, Menu, theme } from 'antd';
 import type { MenuProps } from 'antd';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -23,6 +30,11 @@ const items: MenuProps['items'] = [
 		label: 'WAGMI',
 		key: '/wagmi',
 		icon: <SettingOutlined />,
+	},
+	{
+		label: 'thirdweb',
+		key: '/thirdweb',
+		icon: <ProductOutlined />,
 	},
 ];
 
