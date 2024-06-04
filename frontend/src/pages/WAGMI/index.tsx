@@ -22,7 +22,8 @@ export const WAGMI = () => {
 	const { beTheManager, addNewCharity, removeCharity, donateToCharity, withdrawFunds } = useWriteContractData(notify);
 
 	const account = useAccount();
-	const isManager = compareAddresses(manager, account.address);
+	const accountAddress = account.address as `0x${string}`;
+	const isManager = compareAddresses(manager, accountAddress);
 	const [isNewCharityModalOpen, setIsNewCharityModalOpen] = useState(false);
 
 	return (
@@ -31,7 +32,7 @@ export const WAGMI = () => {
 				<ConnectButton />
 			</ContentHeader>
 			<ContentBody>
-				<Manager color={MAIN_COLOR} manager={manager} address={account.address} onBeTheManager={beTheManager} />
+				<Manager color={MAIN_COLOR} manager={manager} address={accountAddress} onBeTheManager={beTheManager} />
 				<Spin tip="Loading..." size="large" spinning={isCharitiesLoading}>
 					<Flex wrap="wrap" gap="large" justify="center">
 						{charities.map((charity) => (
@@ -39,7 +40,7 @@ export const WAGMI = () => {
 								key={charity.charityAddress}
 								charity={charity}
 								manager={manager}
-								walletAddress={account.address}
+								walletAddress={accountAddress}
 								onDonate={donateToCharity}
 								onWithdraw={withdrawFunds}
 								onRemove={removeCharity}

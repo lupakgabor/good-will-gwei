@@ -23,7 +23,7 @@ export const ConnectButton = () => {
 			)}
 			{account.status === 'connected' && (
 				<Button type={'primary'} onClick={() => disconnect()}>
-					Disconnect: {formatAddress(account.address)}
+					Disconnect: {formatAddress(account.address as `0x${string}`)}
 				</Button>
 			)}
 		</div>

@@ -49,7 +49,7 @@ export const useFetchContractData = (subscribe: (fn: Observer) => void) => {
 	}, []);
 
 	return {
-		manager,
+		manager: manager as `0x${string}`,
 		charities,
 		isCharitiesLoading,
 	};
